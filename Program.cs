@@ -23,6 +23,7 @@ class Program
             Console.WriteLine("4. Exit");
             Console.Write("Enter your choice: ");
             string choice = Console.ReadLine();
+            Console.WriteLine();
 
             switch (choice)
             {
@@ -156,6 +157,7 @@ class Program
 
     static void LevelUpCharacter(string[] lines)
     {
+        Random rand = new Random();
         Console.Write("Enter the name of the character to level up: ");
         string nameToLevelUp = Console.ReadLine();
 
@@ -176,7 +178,7 @@ class Program
                 {
                     commaIndex = line.Substring(line.IndexOf(",")).IndexOf(",", 1) + (line.IndexOf(",")); //retrieves the index of the comma after the name/quotations
                     name = line.Substring(1, line.IndexOf('"', 1));
-                    formattedName = line.Substring(0, line.IndexOf(","));
+                    formattedName = line.Substring(0, commaIndex);
                     name = $"{name.Substring(name.IndexOf(",") + 2).Trim('"')} {name.Substring(0, name.IndexOf(","))}"; //reverse name/title and remove comma 
                 }
                 //otherwise normal processing
@@ -194,9 +196,12 @@ class Program
                 int level = int.Parse(fields[1]);
                 level++;
                 Console.WriteLine($"Character {name} leveled up to level {level}!");
+                int hpGain = rand.Next(1, 7);
+                Console.WriteLine($"They gained {hpGain} maximum hitpoints!");
+                int hitpoints = int.Parse(fields[2]) + hpGain;
 
                 //rewrite current line 
-                lines[i] = $"{formattedName},{fields[0]},{fields[1]},{fields[2]},{fields[3]}";
+                lines[i] = $"{formattedName},{fields[0]},{level},{hitpoints},{fields[3]}";
                 break; //break out of loop 
             }
         }
